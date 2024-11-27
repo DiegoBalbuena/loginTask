@@ -29,7 +29,7 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractBaseUser):
-    username = models.CharField(max_length=150)
+    username = models.CharField(max_length=150, default="default_username")
     email = models.EmailField(unique=True)
     age = models.PositiveIntegerField(default=0)
     is_superuser = models.BooleanField(default=False)
