@@ -32,6 +32,7 @@ AUTH_USER_MODEL = 'tu_app.CustomUser'
 # Application definition
 
 INSTALLED_APPS = [
+    'users',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
