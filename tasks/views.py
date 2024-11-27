@@ -1,8 +1,44 @@
-from django.shortcuts import render
-from django.shortcuts import redirect
+from django.shortcuts import render, redirect
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import UserCreationForm
+from .forms import TaskCreationForm, CustomUserCreationForm
+from django.contrib.auth.decorators import login_required
 from .models import Task
-from .forms import TaskCreationForm
 
+# Vista para la página de inicio de sesión
+def login_view(request):
+    if request.method == "POST":
+        correo_electronico = request.POST['correo_electronico']
+        password = request.POST['password']
+        user = authenticate(request, correo_electronico=correo_electronico, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('task_list')  # Redirige a la lista de tareas o a la página deseada
+        else:
+            return render(request, 'login.html', {'error': 'Credenciales incorrectas'})
+    return render(request, 'login.html')
+
+# Vista para el registro de usuario
+def register_view(request):
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')  # Redirige a la página de login después del registro
+    else:
+        form = CustomUserCreationForm()
+    return render(request, 'register.html', {'form': form})
+
+# Vista para la lista de tareas (requiere estar logueado)
+@login_required
+def task_list(request):
+    tasks = Task.objects.all()
+    return render(request, 'task_list.html', {'tasks': tasks})
+
+# Vista para los detalles del usuario
+@login_required
+def user_details(request):
+    return render(request, 'user_details.html', {'user': request.user})
 
 def index(request):
     tasks = Task.objects.all()

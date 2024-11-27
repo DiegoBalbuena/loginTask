@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<h2>Lista de tareas</h2>
+<ul>
+    {% for task in tasks %}
+        <li>{{ task.title }} - {% if task.completed %}Completada{% else %}Pendiente{% endif %}</li>
+    {% endfor %}
+</ul>
+{% endblock %}
