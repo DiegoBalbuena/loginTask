@@ -5,29 +5,6 @@ from .forms import TaskCreationForm, CustomUserCreationForm
 from django.contrib.auth.decorators import login_required
 from .models import Task
 
-# Vista para la página de inicio de sesión
-def login_view(request):
-    if request.method == "POST":
-        correo_electronico = request.POST['correo_electronico']
-        password = request.POST['password']
-        user = authenticate(request, correo_electronico=correo_electronico, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect('task_list')  # Redirige a la lista de tareas o a la página deseada
-        else:
-            return render(request, 'login.html', {'error': 'Credenciales incorrectas'})
-    return render(request, 'login.html')
-
-# Vista para el registro de usuario
-def register_view(request):
-    if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('login')  # Redirige a la página de login después del registro
-    else:
-        form = CustomUserCreationForm()
-    return render(request, 'register.html', {'form': form})
 
 # Vista para la lista de tareas (requiere estar logueado)
 @login_required
@@ -100,13 +77,15 @@ def delete(request, task_id):
         }
         return render(request, 'tasks/delete.html', params)
         
-def register(request):
+
+# Vista para el registro de usuario
+def register_view(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('task_list')
+            return redirect('tasks:task_list')  # Redirige a la página de login después del registro
     else:
         form = CustomUserCreationForm()
     return render(request, 'register.html', {'form': form})
@@ -118,5 +97,6 @@ def login_view(request):
         user = authenticate(request, email=email, password=password)
         if user is not None:
             login(request, user)
-            return redirect('task_list')
+            return redirect('tasks:task_list')
     return render(request, 'login.html')
+
