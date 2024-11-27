@@ -2,6 +2,15 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 from django.db import models
 from django.utils.timezone import now
 
+class Task(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    completed = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.title
+
+
 class CustomUserManager(BaseUserManager):
     def create_user(self, correo_electronico, nombre_de_usuario, edad=0, password=None, **extra_fields):
         if not correo_electronico:
