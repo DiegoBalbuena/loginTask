@@ -12,38 +12,35 @@ class Task(models.Model):
 
 
 class CustomUserManager(BaseUserManager):
-    def create_user(self, correo_electronico, nombre_de_usuario, edad=0, password=None, **extra_fields):
-        if not correo_electronico:
-            raise ValueError("El usuario debe tener un correo electrónico")
-        correo_electronico = self.normalize_email(correo_electronico)
-        user = self.model(
-            correo_electronico=correo_electronico,
-            nombre_de_usuario=nombre_de_usuario,
-            edad=edad,
-            **extra_fields,
-        )
+    def create_user(self, email, password=None, **extra_fields):
+        if not email:
+            raise ValueError('El correo electrónico es obligatorio')
+        email = self.normalize_email(email)
+        extra_fields.setdefault('is_active', True)
+        user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, correo_electronico, nombre_de_usuario, edad=0, password=None, **extra_fields):
-        extra_fields.setdefault('es_superusuario', True)
-        return self.create_user(correo_electronico, nombre_de_usuario, edad, password, **extra_fields)
+    def create_superuser(self, email, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        return self.create_user(email, password, **extra_fields)
 
 
-class CustomUser(AbstractBaseUser, PermissionsMixin):
-    nombre_de_usuario = models.CharField(max_length=150, unique=True)
-    correo_electronico = models.EmailField(unique=True)
-    edad = models.PositiveIntegerField(default=0)
-    es_superusuario = models.BooleanField(default=False)
-    es_personal = models.BooleanField(default=False)
-    esta_activo = models.BooleanField(default=True)
-    fecha_union = models.DateTimeField(auto_now_add=True)
+class CustomUser(AbstractBaseUser):
+    username = models.CharField(max_length=150)
+    email = models.EmailField(unique=True)
+    age = models.PositiveIntegerField(default=0)
+    is_superuser = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    date_joined = models.DateTimeField(auto_now_add=True)
 
     objects = CustomUserManager()
 
-    USERNAME_FIELD = 'correo_electronico'
-    REQUIRED_FIELDS = ['nombre_de_usuario', 'edad']
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
 
     def __str__(self):
-        return self.correo_electronico
+        return self.email

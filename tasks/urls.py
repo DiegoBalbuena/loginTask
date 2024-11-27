@@ -12,4 +12,6 @@ urlpatterns = [
     path('register/', views.register_view, name='register'),
     path('task_list/', views.task_list, name='task_list'),
     path('user_details/', views.user_details, name='user_details'),
+    path('register/', views.register, name='register'),
+    path('login/', views.login_view, name='login'),
 ]
