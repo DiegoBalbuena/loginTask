@@ -98,5 +98,6 @@ def login_view(request):
         if user is not None:
             login(request, user)
             return redirect('tasks:task_list')
+        else:
+            return render(request, 'login.html', {'error': 'Credenciales incorrectas'})
     return render(request, 'login.html')
-
