@@ -32,7 +32,6 @@ AUTH_USER_MODEL = 'tasks.CustomUser'
 # Application definition
 
 INSTALLED_APPS = [
-    'tasks',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
