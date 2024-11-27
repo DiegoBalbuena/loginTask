@@ -32,3 +32,26 @@ class LoginForm(forms.Form):
 class TaskCreationForm(forms.Form):
     title = forms.CharField(label='Título', max_length=255)  
     content = forms.CharField(label='Contenido', widget=forms.Textarea())  
+
+class UserRegisterForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
+    confirm_password = forms.CharField(widget=forms.PasswordInput())
+
+    class Meta:
+        model = CustomUser
+        fields = ['nombre_de_usuario', 'correo_electronico', 'edad']
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get('password')
+        confirm_password = cleaned_data.get('confirm_password')
+        if password != confirm_password:
+            raise forms.ValidationError("Las contraseñas no coinciden")
+        return cleaned_data
+        
+from django.contrib.auth.forms import AuthenticationForm
+
+class LoginForm(AuthenticationForm):
+    username = forms.CharField(label='Correo Electrónico', max_length=100)
+    password = forms.CharField(widget=forms.PasswordInput())
+
