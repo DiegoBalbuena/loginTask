@@ -38,8 +38,15 @@ class UserRegisterForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ['nombre_de_usuario', 'correo_electronico', 'edad']
-
+        fields = ['username', 'email', 'age', 'password']
+        labels = {
+            'username': 'Nombre de usuario',
+            'email': 'Correo electrónico',
+            'age': 'Edad',
+        }
+        widgets = {
+            'password': forms.PasswordInput(),
+        }
     def clean(self):
         cleaned_data = super().clean()
         password = cleaned_data.get('password')
