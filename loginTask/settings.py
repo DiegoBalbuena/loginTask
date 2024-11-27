@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-_vn%bn*zjpn)j50h@xt6_kh=thv4%p9zh@!4ux2=+ughak7oq7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 AUTH_USER_MODEL = 'tasks.CustomUser'
 
 
@@ -78,11 +78,11 @@ WSGI_APPLICATION = 'loginTask.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'login_task',
-        'USER': 'sample_user',
-        'PASSWORD': 'password',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': 'postgres',
+        'USER': 'postgres.fzupthbivcinlsbqgobv',
+        'PASSWORD': '5548625DiegoMessi',
+        'HOST': 'aws-0-us-west-1.pooler.supabase.com',
+        'PORT': '6543',
     }
 }
 
