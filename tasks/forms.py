@@ -1,15 +1,14 @@
 from django import forms
 from django.contrib.auth import authenticate
+from django.contrib.auth.forms import UserCreationForm
 from .models import CustomUser
 
 # Formulario para registrar un nuevo usuario
-class CustomUserCreationForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput)
-
+class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = CustomUser
-        fields = ['nombre_de_usuario', 'correo_electronico', 'edad', 'password']
-
+        fields = ['username', 'email', 'age', 'password1', 'password2']
+        
     def clean_password(self):
         password = self.cleaned_data.get("password")
         if len(password) < 6:
