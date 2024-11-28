@@ -85,12 +85,16 @@ def register_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('tasks:task_list')  # Redirige a la página de login después del registro
+            return redirect('tasks:task_list')
+        else:
+            return render(request, 'register.html', {'form': form, 'errors': form.errors})
     else:
         form = CustomUserCreationForm()
     return render(request, 'register.html', {'form': form})
 
+
 def login_view(request):
+    error = None
     if request.method == 'POST':
         email = request.POST['email']
         password = request.POST['password']
@@ -99,5 +103,5 @@ def login_view(request):
             login(request, user)
             return redirect('tasks:task_list')
         else:
-            return render(request, 'login.html', {'error': 'Credenciales incorrectas'})
-    return render(request, 'login.html')
+            error = 'Credenciales incorrectas'
+    return render(request, 'login.html', {'error': error})
