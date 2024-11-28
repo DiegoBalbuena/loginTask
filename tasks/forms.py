@@ -10,7 +10,7 @@ class CustomUserCreationForm(UserCreationForm):
         fields = ['username', 'email', 'age', 'password1', 'password2']
         
     def clean_password(self):
-        password = self.cleaned_data.get("password")
+        password = self.cleaned_data.get("password1")
         if len(password) < 6:
             raise forms.ValidationError("La contraseña debe tener al menos 6 caracteres.")
         return password
