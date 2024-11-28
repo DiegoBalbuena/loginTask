@@ -4,8 +4,45 @@ from django.contrib.auth.forms import UserCreationForm
 from .forms import TaskCreationForm, CustomUserCreationForm
 from django.contrib.auth.decorators import login_required
 from .models import Task
+from django.contrib.auth.forms import UserChangeForm
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import logout
+
+# Vista para eliminar cuenta (requiere estar logueado)
+@login_required
+def delete_account(request):
+    if request.method == 'POST':
+        request.user.delete()
+        logout(request)  # Cierra la sesión tras eliminar la cuenta
+        return redirect('tasks:login')  # Redirige a la página de login
+    return render(request, 'delete_account.html')
 
 
+# Vista para editar el usuario (requiere estar logueado)
+@login_required
+def edit_account(request):
+    if request.method == 'POST':
+        form = UserChangeForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('tasks:user_details')  # Redirige a los detalles del usuario después de editar
+    else:
+        form = UserChangeForm(instance=request.user)
+    return render(request, 'edit_account.html', {'form': form})
+    
+# Vista para cambiar la contrasena (requiere estar logueado)
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Mantener al usuario logueado después de cambiar la contraseña
+            return redirect('tasks:user_details')  # Redirige a los detalles del usuario
+    else:
+        form = PasswordChangeForm(user=request.user)
+    return render(request, 'change_password.html', {'form': form})
 # Vista para la lista de tareas (requiere estar logueado)
 @login_required
 def task_list(request):
