@@ -66,8 +66,8 @@ def index(request):
 def create(request):
     if (request.method == 'POST'):
         title = request.POST['title']
-        content = request.POST['content']
-        task = Task(title=title, content=content)
+        description = request.POST['description']
+        task = Task(title=title, description=description)
         task.save()
         return redirect('tasks:index')
     else:
@@ -89,13 +89,13 @@ def edit(request, task_id):
     task = Task.objects.get(id=task_id)
     if (request.method == 'POST'):
         task.title = request.POST['title']
-        task.content = request.POST['content']
+        task.description = request.POST['description']
         task.save()
         return redirect('tasks:detail', task_id)
     else:
         form = TaskCreationForm(initial={
             'title': task.title,
-            'content': task.content,
+            'description': task.description,
         })
         params = {
             'task': task,
