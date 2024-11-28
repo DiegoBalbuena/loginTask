@@ -1,10 +1,6 @@
 from django.urls import path
 from . import views
 from django.contrib.auth.views import LogoutView
-from django.conf.urls.static import static
-
-from django.conf import settings
-
 
 app_name = 'tasks'
 
@@ -22,4 +18,4 @@ urlpatterns = [
     path('edit_account/', views.edit_account, name='edit_account'),
     path('change_password/', views.change_password, name='change_password'),
     path('delete_account/', views.delete_account, name='delete_account')
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]
