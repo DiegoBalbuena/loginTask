@@ -139,6 +139,10 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 
 STATIC_URL = 'static/'
 
+LOGIN_URL = '/tasks/login/'  # Redirige a tu vista de login personalizada
+LOGIN_REDIRECT_URL = '/tasks/task_list/'  # Redirige tras un login exitoso
+LOGOUT_REDIRECT_URL = '/tasks/login/'  # Redirige tras el logout
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
