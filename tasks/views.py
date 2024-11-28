@@ -87,21 +87,23 @@ def detail(request, task_id):
 
 def edit(request, task_id):
     task = Task.objects.get(id=task_id)
-    if (request.method == 'POST'):
-        task.title = request.POST['title']
-        task.description = request.POST['description']
-        task.save()
-        return redirect('tasks:detail', task_id)
+    if request.method == 'POST':
+        form = TaskCreationForm(request.POST)
+        if form.is_valid():
+            # Si el formulario es válido, actualizamos la tarea
+            task.title = form.cleaned_data['title']
+            task.description = form.cleaned_data['description']
+            task.save()
+            return redirect('tasks:detail', task_id)
     else:
+        # En la solicitud GET, prellenamos el formulario con los datos existentes
         form = TaskCreationForm(initial={
             'title': task.title,
             'description': task.description,
         })
-        params = {
-            'task': task,
-            'form': form,
-        }
-        return render(request, 'tasks/edit.html', params)
+    
+    return render(request, 'tasks/edit.html', {'form': form, 'task': task})
+
 
 
 def delete(request, task_id):
