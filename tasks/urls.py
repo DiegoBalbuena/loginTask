@@ -15,4 +15,7 @@ urlpatterns = [
     path('task_list/', views.task_list, name='task_list'),
     path('user_details/', views.user_details, name='user_details'),
     path('logout/', LogoutView.as_view(), name='logout'),
+    path('edit_account/', views.edit_account, name='edit_account'),
+    path('change_password/', views.change_password, name='change_password'),
+
 ]
