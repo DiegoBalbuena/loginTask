@@ -47,8 +47,9 @@ def change_password(request):
 # Vista para la lista de tareas (requiere estar logueado)
 @login_required
 def task_list(request):
-    tasks = Task.objects.all()
-    return render(request, 'task_list.html', {'tasks': tasks})
+    tasks = Task.objects.all()  # Obtiene todas las tareas
+    return render(request, 'tasks/task_list.html', {'tasks': tasks})
+
 
 # Vista para los detalles del usuario
 @login_required
