@@ -4,7 +4,16 @@
 <h1>Editar Tarea</h1>
 <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    <div>
+        <label for="id_title">Título:</label>
+        <input type="text" name="title" id="id_title" value="{{ form.title.value }}">
+    </div>
+
+    <div>
+        <label for="id_description">Descripción:</label>
+        <textarea name="description" id="id_description" cols="140" rows="25">{{ form.description.value }}</textarea>
+    </div>
+
     <input type="submit" value="Actualizar">
 </form>
 
