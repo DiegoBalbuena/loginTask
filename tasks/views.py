@@ -43,6 +43,7 @@ def change_password(request):
     else:
         form = PasswordChangeForm(user=request.user)
     return render(request, 'change_password.html', {'form': form})
+    
 # Vista para la lista de tareas (requiere estar logueado)
 @login_required
 def task_list(request):
@@ -140,5 +141,5 @@ def login_view(request):
             login(request, user)
             return redirect('tasks:task_list')
         else:
-            error = 'Credenciales incorrectas'
-    return render(request, 'login.html', {'error': error})
+            return render(request, 'login.html', {'error': 'Credenciales incorrectas'})
+    return render(request, 'login.html')
