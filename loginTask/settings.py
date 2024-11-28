@@ -56,7 +56,7 @@ ROOT_URLCONF = 'loginTask.urls'
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',  # Para usar la autenticación tradicional
-    'django.contrib.auth.backends.EmailBackend',  # Si tienes un backend de email personalizado
+    'tasks.backends.EmailBackend',  # Si tienes un backend de email personalizado
 )
 
 
